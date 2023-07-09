@@ -20,6 +20,7 @@ function CreateCube(scene){
     }
     const cube = new BABYLON.MeshBuilder.CreateBox('cube',cubeProperties,scene);
     var material = new BABYLON.StandardMaterial("materialName", scene);
+    cube.convertToFlatShadedMesh();
     material.diffuseColor = CUBE_COLOR;
     cube.material = material;
     return cube
@@ -35,28 +36,49 @@ function RenderScene(engine, scene){
       });
 }   
 
+function CreateArcCamera(cube, scene, canvas){
+    const camera = new BABYLON.ArcRotateCamera(
+        "camera",
+        0,
+        0,
+        10,
+        cube.position,
+        scene
+      );
+
+    camera.setPosition(new BABYLON.Vector3(0, 0, 5));
+    camera.attachControl(canvas, true);
+    return camera
+}
+
 function Extrusion() {
     
     const canvasRef = useRef(null)
     
     useEffect(() => {
-        const canvas = canvasRef.current
+        const canvas = canvasRef.current;
         const engine = new BABYLON.Engine(canvas);
         const scene = CreateScene(engine);
         const cube = CreateCube(scene);
-        const camera = new BABYLON.ArcRotateCamera(
-            "camera",
-            0,
-            0,
-            10,
-            cube.position,
-            scene
-          );
-    
-        camera.setPosition(new BABYLON.Vector3(0, 0, 5));
-        camera.attachControl(canvas, true);
-        const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
-        
+        const camera = CreateArcCamera(cube, scene, canvas);
+
+        new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
+
+        var positions = cube.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+        var colors = cube.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+        const indices = cube.getIndices(true);
+        console.log(indices)
+        //setting colors to default white if color array is undefined/null
+        if(!colors) {
+            colors = [];
+            for(let p = 0; p < positions.length / 3; p++) {
+                colors.push(1);
+            }
+        }
+
+
+
+
         //scene rendering with auto scaling
         RenderScene(engine, scene);
     },[])
