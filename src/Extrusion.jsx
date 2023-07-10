@@ -79,9 +79,6 @@ function RenderScene(engine, scene){
 
 function Extrusion() {
     
-    var undoCounter = 0
-    var cube2 = null
-
     const [canExtrude, setCanExtrude] = useState(false);
     const [hitDetails, setHitDetails] = useState(null);
     
@@ -109,8 +106,6 @@ function Extrusion() {
             if (hit.pickedMesh) {
                 const face = hit.faceId / 2;
                 const facet = 2 * Math.floor(face);
-
-                var facet = 2 * Math.floor(face);
                 var vertex;
                 for (var i = 0; i < NUMBER_OF_FACES; i++) {
                     vertex = indices[NUMBER_OF_FACETS * facet + i];
