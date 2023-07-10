@@ -4,9 +4,9 @@ This repository helps to recreate the function in babylonjs project as shown in
 [Extrusion demo](https://www.loom.com/share/d5f1163433c04650b63320698067087b)
 
 ## Demo
-To try out this project,
+To try out the Demo,
 
-Visit the link : 
+Visit the link : [Demo of the project](https://extrustionapp.vercel.app/)
 
 Or
 
@@ -28,5 +28,5 @@ Or
 
 1. Fixing the undo function.
 2. Adding an option for redo.
-3. 
+3. Adding Gui elements for drag extrusion or single tap extrusion with extrusion values
 
